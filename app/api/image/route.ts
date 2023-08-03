@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { Configuration, OpenAIApi } from "openai";
+import { checkApiLimit, incrementApiLimitCount } from "@/lib/api-limit";
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -28,12 +29,18 @@ export async function POST(
       return new NextResponse("A Prompt is required", { status: 400 });
     }
 
+    if (!amount) {
+      return new NextResponse("An Amount is required", { status: 400 });
+    }
+
     if (!resolution) {
       return new NextResponse("A Resolution is required", { status: 400 });
     }
 
-    if (!amount) {
-      return new NextResponse("An Amount is required", { status: 400 });
+    const freeTrial = await checkApiLimit();
+
+    if (!freeTrial) {
+      return new NextResponse("Free trial has expired.", { status: 403 });
     }
 
     const response = await openai.createImage({
@@ -41,6 +48,8 @@ export async function POST(
       n: parseInt(amount, 10),
       size: resolution,
     });
+
+    await incrementApiLimitCount();
 
     return NextResponse.json(response.data.data);
   } catch (error) {

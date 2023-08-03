@@ -14,6 +14,11 @@ import { Montserrat } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import ApiLimitCounter from "./api-limit-counter";
+
+interface SidebarProps {
+  apiLimitCount: number;
+}
 
 const montserrat = Montserrat({ weight: "600", subsets: ["latin"] });
 
@@ -62,7 +67,7 @@ const routes = [
   },
 ];
 
-const Sidebar = () => {
+const Sidebar: React.FC<SidebarProps> = ({ apiLimitCount = 0 }) => {
   const pathName = usePathname();
 
   return (
@@ -98,6 +103,7 @@ const Sidebar = () => {
           ))}
         </div>
       </div>
+      <ApiLimitCounter count={apiLimitCount} />
     </div>
   );
 };
