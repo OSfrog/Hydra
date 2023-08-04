@@ -8,9 +8,12 @@ import Sidebar from "./sidebar";
 
 interface MobileSidebarProps {
   count: number;
+  isPro: boolean;
 }
 
-const MobileSidebar: React.FC<MobileSidebarProps> = ({ count }) => {
+export const MobileSidebar: React.FC<MobileSidebarProps> = (
+  { count = 0, isPro = false },
+) => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -29,10 +32,8 @@ const MobileSidebar: React.FC<MobileSidebarProps> = ({ count }) => {
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="p-0">
-        <Sidebar apiLimitCount={count} />
+        <Sidebar isPro={isPro} apiLimitCount={count} />
       </SheetContent>
     </Sheet>
   );
 };
-
-export default MobileSidebar;

@@ -22,8 +22,9 @@ import { useProModal } from "@/hooks/use-pro-modal";
 
 const ChatPage = () => {
   const proModal = useProModal();
-  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
   const router = useRouter();
+  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -91,6 +92,8 @@ const ChatPage = () => {
               />
               <Button
                 className="col-span-12 lg:col-span-2 w-full"
+                type="submit"
+                size="icon"
                 disabled={isLoading}
               >
                 Generate

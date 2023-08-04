@@ -10,9 +10,12 @@ import { useProModal } from "@/hooks/use-pro-modal";
 
 interface ApiLimitCounterProps {
   count: number;
+  isPro: boolean;
 }
 
-const ApiLimitCounter: React.FC<ApiLimitCounterProps> = ({ count = 0 }) => {
+const ApiLimitCounter: React.FC<ApiLimitCounterProps> = (
+  { count = 0, isPro = false },
+) => {
   const proModal = useProModal();
   const [mounted, setMounted] = useState(false);
 
@@ -23,6 +26,11 @@ const ApiLimitCounter: React.FC<ApiLimitCounterProps> = ({ count = 0 }) => {
   if (!mounted) {
     return null;
   }
+
+  if (isPro) {
+    return null;
+  }
+
   return (
     <div className="px-3">
       <Card className="bg-white/10 border-0">

@@ -18,6 +18,7 @@ import ApiLimitCounter from "./api-limit-counter";
 
 interface SidebarProps {
   apiLimitCount: number;
+  isPro: boolean;
 }
 
 const montserrat = Montserrat({ weight: "600", subsets: ["latin"] });
@@ -67,7 +68,9 @@ const routes = [
   },
 ];
 
-const Sidebar: React.FC<SidebarProps> = ({ apiLimitCount = 0 }) => {
+const Sidebar: React.FC<SidebarProps> = (
+  { apiLimitCount = 0, isPro = false },
+) => {
   const pathName = usePathname();
 
   return (
@@ -103,7 +106,7 @@ const Sidebar: React.FC<SidebarProps> = ({ apiLimitCount = 0 }) => {
           ))}
         </div>
       </div>
-      <ApiLimitCounter count={apiLimitCount} />
+      <ApiLimitCounter count={apiLimitCount} isPro={isPro} />
     </div>
   );
 };
